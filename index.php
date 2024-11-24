@@ -34,15 +34,30 @@ $questions = [
 // Initialize score
 $score = 0;
 
-// Check if form is submitted
+// Process: Form submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $name = htmlspecialchars($_POST['name']);
     foreach ($questions as $index => $question) {
         if (isset($_POST["question$index"]) && $_POST["question$index"] == $question['answer']) {
             $score++;
         }
     }
+
+    // Save score to database
+    $stmt = $conn->prepare("INSERT INTO leaderboard (name, score) VALUES (?, ?)");
+    $stmt->bind_param("si", $name, $score);
+    $stmt->execute();
+    $stmt->close();
+
     echo "<h2>Your Score: $score/" . count($questions) . "</h2>";
     echo '<a href="index.php">Try Again</a>';
+    echo '<h2>Leaderboard</h2>';
+    $result = $conn->query("SELECT name, score FROM leaderboard ORDER BY score DESC LIMIT 5");
+    echo "<ul>";
+    while ($row = $result->fetch_assoc()) {
+        echo "<li>{$row['name']}: {$row['score']}</li>";
+    }
+    echo "</ul>";
     exit;
 }
 ?>
