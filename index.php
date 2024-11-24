@@ -1,5 +1,18 @@
 <?php
-// Define questions and answers
+// Database Connection
+$host = "localhost";
+$user = "Russo";
+$password = "";
+$dbname = "php_quiz";
+$port = '3307';
+
+$conn = new mysqli($host, $user, $password, $dbname, $port);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Define: Q&A
 $questions = [
     [
         "question" => "What does PHP stand for?",
