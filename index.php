@@ -79,13 +79,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
     <h1>PHP Quiz</h1>
+    <button class="toggle-dark-mode" onclick="toggleDarkMode()">Toggle Dark Mode</button>
     <form method="post" action="">
+        <label for="name">Enter your name:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
         <?php foreach ($questions as $index => $question): ?>
             <fieldset>
                 <legend><?php echo $question['question']; ?></legend>
                 <?php foreach ($question['options'] as $optionIndex => $option): ?>
                     <label>
-                        <input type="radio" name="question<?php echo $index; ?>" value="<?php echo $optionIndex; ?>">
+                        <input type="radio" name="question<?php echo $index; ?>" value="<?php echo $optionIndex; ?>" required>
                         <?php echo $option; ?>
                     </label><br>
                 <?php endforeach; ?>
